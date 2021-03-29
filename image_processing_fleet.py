@@ -12,6 +12,10 @@ import numpy as np
 
 # NOTE order not the same as in data cause this does it alphabetically
 def getImageData(x, y):
+
+    carriers = ['Lufthansa', 'KLM', 'Qantas', 'Emirates', 'AirFrance', 'Eithad', 'Turkish', 'American', 'Iberia', 'Qatar']
+    models = ['B747', 'A380', 'B777', 'B787', 'A340', 'A330', 'B737', 'A320', 'A350', 'E190']
+
     image_array = []
     carrier_lst = []
     type_lst = []
@@ -25,11 +29,18 @@ def getImageData(x, y):
 
         # fleet & name data
         carrier = filename.split()[1]
+        for i in range(10):
+            if carriers[i] == carrier:
+                carrier_index = i
         typ = filename.split()[2][:4]
-        carrier_lst.append(carrier)
-        type_lst.append(typ)
+        for i in range(10):
+            if models[i] == typ:
+                typ_index = i
+        carrier_lst.append(carrier_index)
+        type_lst.append(typ_index)
 
-    print(image_array[0])
+    print(type_lst)
+    print(carrier_lst)
     return image_array, carrier_lst, type_lst
 
 
