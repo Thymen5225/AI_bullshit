@@ -17,20 +17,31 @@ class loss:
     def forward(self,inputs,target):
         sum = 0
         for i in range(0,len(target)):
-            sum = sum + np.log(inputs[i]) * target[i]
-        self.output = sum
+            sum = sum + np.log(inputs[i]) * target[0][i]
+        self.output = -sum
+class ReLU:
+    def forward(self,inputs):
+        self.output = np.maximum(0,inputs)
 
 #Trying
-
-layer1 = layer(2,10)
-activation1 = softmax()
-X = np.array([[1,2],
-              [3,4]])
+X = np.array([[1,0],
+              [2,0]])
 target = np.zeros((10,1)).T
 target[0][0]=1
+
+layer1 = layer(2, 10)
+layer2 = layer(10,10)
+activation1 = ReLU()
+activation2 = softmax()
+loss1 = loss()
+
+
 layer1.forward(X)
 activation1.forward(layer1.output)
-probabilities = activation1.output
-loss1 = loss()
-loss1.forward(probabilities,target)
+
+layer2.forward(activation1.output)
+activation2.forward(layer2.output)
+
+loss1.forward(activation2.output[0],target)
 print(loss1.output)
+
