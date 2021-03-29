@@ -2,6 +2,7 @@ from PIL import Image, ImageOps
 import glob
 import numpy as np
 
+
 # returns: image data (list containing image data - image data in [row1], [row2], etc.
 # returns: list with corresponding planes and carriers
 
