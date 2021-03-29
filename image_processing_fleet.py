@@ -1,19 +1,35 @@
-from PIL import Image
+from PIL import Image, ImageOps
+import glob
 import numpy as np
-import pygame as pg
 
-im = Image.open("Data/test1.jpg")
-im_resized = im.resize((600, 600), Image.ANTIALIAS)
-im_bw = im_resized.convert('1', dither=Image.NONE)
-im_data = np.asarray(im_resized)
-def readimg(img):  # Turn image into RGB surface arrays
-    imgsurface = pg.image.load("data/" + img, "r")
-    arrRed = pg.surfarray.pixels_red(imgsurface)
-    arrGreen = pg.surfarray.pixels_green(imgsurface)
-    arrBlue = pg.surfarray.pixels_blue(imgsurface)
+# returns: image data (list containing image data - image data in [row1], [row2], etc.
+# returns: list with corresponding planes and carriers
 
-print(im_data)
+# greyscale --- value 0 is black, 255 is white
+
+# x and y are hor and vert pixels
+
+# NOTE order not the same as in data cause this does it alphabetically
+def getImageData(x, y):
+    image_array = []
+    carrier_lst = []
+    type_lst = []
+    for filename in glob.glob('Data/*.jpg'):
+        im = Image.open(filename)
+
+        # image data
+        im_gray = ImageOps.grayscale(im.resize((x, y), Image.ANTIALIAS))
+        im_data = np.asarray(im_gray)
+        image_array.append(im_data)
+
+        # fleet & name data
+        carrier = filename.split()[1]
+        typ = filename.split()[2][:4]
+        carrier_lst.append(carrier)
+        type_lst.append(typ)
+
+    print(image_array[0])
+    return image_array, carrier_lst, type_lst
 
 
-imgname =  input("Enter image name: ") # INCLUDE THE .JPG .PNG STUFF!!!!!
-arrRed, arrGreen, arrBlue = readimg(imgname)
+getImageData(1280, 720)
