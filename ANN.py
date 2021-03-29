@@ -7,8 +7,44 @@ class layer:
         self.biases = np.zeros((1,n_neurons))
     def forward(self,inputs):
         self.output = np.dot(inputs,self.weights) + self.biases
-layer1 = layer(2,2)
-X = np.array([[1,2],
-              [3,4]])
+
+class softmax:
+    def forward(self,inputs):
+        exp_values = np.exp(inputs - np.max(inputs,axis=1,keepdims=True))
+        probabilites = exp_values / np.sum(exp_values,axis=1,keepdims=True)
+        self.output  = probabilites
+class loss:
+    def forward(self,inputs,target):
+        res=[]
+        for j in inputs:
+            sum = 0
+            for i in range(0,len(j)):
+                sum = sum + np.log(j[i]) * target[0][i]
+            res.append(-sum)
+        self.output = res
+class ReLU:
+    def forward(self,inputs):
+        self.output = np.maximum(0,inputs)
+
+#Trying
+X = np.array([[1,0],
+              [2,0]])
+target = np.zeros((10,1)).T
+target[0][0]=1
+
+layer1 = layer(2, 10)
+layer2 = layer(10,10)
+activation1 = ReLU()
+activation2 = softmax()
+loss1 = loss()
+
+
 layer1.forward(X)
-print(layer1.output)
+activation1.forward(layer1.output)
+
+layer2.forward(activation1.output)
+activation2.forward(layer2.output)
+
+loss1.forward(activation2.output,target)
+print(loss1.output)
+
