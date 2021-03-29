@@ -7,6 +7,7 @@ class layer:
         self.biases = np.zeros((1,n_neurons))
     def forward(self,inputs):
         self.output = np.dot(inputs,self.weights) + self.biases
+
 layer1 = layer(2,2)
 X = np.array([[1,2],
               [3,4]])
