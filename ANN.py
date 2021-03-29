@@ -15,10 +15,13 @@ class softmax:
         self.output  = probabilites
 class loss:
     def forward(self,inputs,target):
-        sum = 0
-        for i in range(0,len(target)):
-            sum = sum + np.log(inputs[i]) * target[0][i]
-        self.output = -sum
+        res=[]
+        for j in inputs:
+            sum = 0
+            for i in range(0,len(j)):
+                sum = sum + np.log(j[i]) * target[0][i]
+            res.append(-sum)
+        self.output = res
 class ReLU:
     def forward(self,inputs):
         self.output = np.maximum(0,inputs)
@@ -42,6 +45,6 @@ activation1.forward(layer1.output)
 layer2.forward(activation1.output)
 activation2.forward(layer2.output)
 
-loss1.forward(activation2.output[0],target)
+loss1.forward(activation2.output,target)
 print(loss1.output)
 
