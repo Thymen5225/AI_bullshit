@@ -1,7 +1,7 @@
 from PIL import Image, ImageOps
 import glob
 import numpy as np
-
+import random
 
 # returns: image data (list containing image data - image data in [row1], [row2], etc.
 # returns: list with corresponding planes and carriers
@@ -12,7 +12,6 @@ import numpy as np
 
 # NOTE order not the same as in data cause this does it alphabetically
 def getImageData(x, y):
-
     carriers = ['Lufthansa', 'KLM', 'Qantas', 'Emirates', 'AirFrance', 'Etihad', 'Turkish', 'American', 'Iberia', 'Qatar']
     models = ['B747', 'A380', 'B777', 'B787', 'A340', 'A330', 'B737', 'A320', 'A350', 'E190']
 
@@ -41,9 +40,11 @@ def getImageData(x, y):
         carrier_lst.append(carrier_index)
         type_lst.append(typ_index)
 
-    #print(type_lst)
-    #print(carrier_lst)
+    temp = list(zip(image_array, carrier_lst, type_lst))
+    random.shuffle(temp)
+    image_array, carrier_lst, type_lst = zip(*temp)
+
     return image_array, carrier_lst, type_lst
 
 
-image_array, carrier_lst, type_lst = getImageData(64, 36)
+# image_array, carrier_lst, type_lst = getImageData(64, 36)
