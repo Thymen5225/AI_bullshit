@@ -11,6 +11,7 @@ import numpy as np
 # x and y are hor and vert pixels
 
 # NOTE order not the same as in data cause this does it alphabetically
+
 def getImageData(x, y):
 
     carriers = ['Lufthansa', 'KLM', 'Qantas', 'Emirates', 'AirFrance', 'Eithad', 'Turkish', 'American', 'Iberia', 'Qatar']
@@ -27,7 +28,7 @@ def getImageData(x, y):
         im_data = np.asarray(im_gray)
         image_array.append(im_data.flatten())
 
-        print(im_data.flatten())
+        #print(im_data.flatten())
 
         # fleet & name data
         carrier = filename.split()[1]
@@ -46,4 +47,4 @@ def getImageData(x, y):
     return image_array, carrier_lst, type_lst
 
 
-getImageData(64, 36)
+#getImageData(64, 36)
