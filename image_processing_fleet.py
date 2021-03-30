@@ -13,7 +13,7 @@ import numpy as np
 # NOTE order not the same as in data cause this does it alphabetically
 def getImageData(x, y):
 
-    carriers = ['Lufthansa', 'KLM', 'Qantas', 'Emirates', 'AirFrance', 'Eithad', 'Turkish', 'American', 'Iberia', 'Qatar']
+    carriers = ['Lufthansa', 'KLM', 'Qantas', 'Emirates', 'AirFrance', 'Etihad', 'Turkish', 'American', 'Iberia', 'Qatar']
     models = ['B747', 'A380', 'B777', 'B787', 'A340', 'A330', 'B737', 'A320', 'A350', 'E190']
 
     image_array = []
@@ -27,7 +27,7 @@ def getImageData(x, y):
         im_data = np.asarray(im_gray)
         image_array.append(im_data.flatten())
 
-        print(im_data.flatten())
+        # print(im_data.flatten())
 
         # fleet & name data
         carrier = filename.split()[1]
@@ -46,4 +46,4 @@ def getImageData(x, y):
     return image_array, carrier_lst, type_lst
 
 
-getImageData(64, 36)
+image_array, carrier_lst, type_lst = getImageData(64, 36)
