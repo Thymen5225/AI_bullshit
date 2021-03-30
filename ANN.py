@@ -44,7 +44,7 @@ class update:
         self.output = W1, b1, W2, b2
 
 resolution = [64,36] #64,36
-X1, carrier_lst, Y1 = image_processing_fleet.getImageData(resolution[0],resolution[1])
+X1, fleet, Y1 = image_processing_fleet.getImageData(resolution[0],resolution[1])
 X1 = np.array(X1)
 Y1 = np.array(Y1)
 Y2 = []
@@ -55,35 +55,28 @@ for i in Y1:
 Y2 = np.array(Y2).reshape(len(Y2),10)
 Y2 = Y2.astype(int)
 
-test = Image.open('test_2.jpg')
-test_gray = ImageOps.grayscale(test.resize((resolution[0],resolution[1]), Image.ANTIALIAS))
-X_test = np.asarray(test_gray).flatten()
+X_test, fleet, Y1_test = image_processing_fleet.getTestData(resolution[0],resolution[1])
+X_test = np.array(X_test)
+Y1_test = np.array(Y1_test)
+Y2_test = []
+for i in Y1_test:
+    empty = np.zeros((1,10))
+    empty[0][i] = 1
+    Y2_test.append(empty)
+Y2_test = np.array(Y2_test).reshape(len(Y2_test),10)
+Y2_test= Y2_test.astype(int)
 
 
-#Trying
-# X = np.array([[1,0,2,5,6],
-#               [2,0,3,6,7],
-#               [2,1,2,6,2],
-#               [3,1,5,1,0]])
-# X = X
-# Y = np.zeros((10,4)).T
-# Y[0][0]=1
-# Y[1][2]=1
-# Y[2][2]=1
-# Y[3][3]=1
-# Y = Y.astype(int)
-# print(X)
-# print(X1)
 X = X1
 Y = Y2
+learning_rate = 0.0001 #0.0001
+iterations = 10000 #2500
+Neurons = 300 #200
 
-
-layer1 = layer(resolution[0]*resolution[1], 70) #resolution[0]*resolution[1]
-layer2 = layer(70,10)
+layer1 = layer(resolution[0]*resolution[1], Neurons) #resolution[0]*resolution[1]
+layer2 = layer(Neurons,10)
 activation1 = ReLU()
 activation2 = softmax()
-learning_rate = 0.0001
-iterations = 2500
 
 def run():
     for i in range(0,iterations):
@@ -106,7 +99,6 @@ def run():
         if i/iterations*100 % 5 ==0:
             print((i/iterations)*100)
 
-
     results=[]
     for i in activation2.output:
         #print(np.argmax(i))
@@ -126,7 +118,19 @@ def run():
 
     layer2.forward(activation1.output)
     activation2.forward(layer2.output)
+
+    results_test=[]
     for i in activation2.output:
-        print("Result:",np.argmax(i))
+        results_test.append(np.argmax(i))
+        positive_t = 0
+        mistakes_t = 0
+    for i in range(0, len(Y1_test)):
+        b = Y1_test[i] - results_test[i]
+        if b == 0:
+            positive_t = positive_t + 1
+        else:
+            mistakes_t = mistakes_t + 1
+    print("Test data:", positive_t, mistakes_t, positive_t / len(Y2_test) * 100)
 
 run()
+#print("Y1:",Y1.shape,"Y1_test:",Y1_test.shape,"Y2:",Y2.shape,"Y2_test:",Y2_test.shape)

@@ -77,7 +77,7 @@ def getTestData(x, y):
         carrier_lst.append(carrier_index)
         type_lst.append(typ_index)
 
-        print(type_lst, carrier_lst, image_array)
+        #print(type_lst, carrier_lst, image_array)
 
     return image_array, carrier_lst, type_lst
 
