@@ -1,6 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 import image_processing_fleet
+from PIL import Image, ImageOps
 
 class layer:
     def __init__(self,n_inputs,n_neurons):
@@ -42,11 +43,10 @@ class update:
         b2 = b2 - alpha * db2
         self.output = W1, b1, W2, b2
 
-resolution = [64,36]
-X1, carrier_lst, Y1 = image_processing_fleet.getImageData(resolution[0],resolution[1]) #64,36
+resolution = [64,36] #64,36
+X1, carrier_lst, Y1 = image_processing_fleet.getImageData(resolution[0],resolution[1])
 X1 = np.array(X1)
 Y1 = np.array(Y1)
-
 Y2 = []
 for i in Y1:
     empty = np.zeros((1,10))
@@ -54,6 +54,11 @@ for i in Y1:
     Y2.append(empty)
 Y2 = np.array(Y2).reshape(len(Y2),10)
 Y2 = Y2.astype(int)
+
+test = Image.open('testfile.png')
+test_gray = ImageOps.grayscale(test.resize((resolution[0],resolution[1]), Image.ANTIALIAS))
+X_test = np.asarray(test_gray).flatten()
+
 
 #Trying
 # X = np.array([[1,0,2,5,6],
@@ -72,12 +77,13 @@ Y2 = Y2.astype(int)
 X = X1
 Y = Y2
 
-layer1 = layer(resolution[0]*resolution[1], 100) #resolution[0]*resolution[1]
-layer2 = layer(100,10)
+
+layer1 = layer(resolution[0]*resolution[1], 70) #resolution[0]*resolution[1]
+layer2 = layer(70,10)
 activation1 = ReLU()
 activation2 = softmax()
-learning_rate = 0.00001
-iterations = 10000
+learning_rate = 0.0001
+iterations = 2000
 
 def run():
     for i in range(0,iterations):
@@ -115,11 +121,12 @@ def run():
             mistakes = mistakes +1
     print("Learning data:",positive,mistakes,positive/len(Y1)*100)
 
-    layer1.forward(X)
+    layer1.forward(X_test)
     activation1.forward(layer1.output)
 
     layer2.forward(activation1.output)
     activation2.forward(layer2.output)
-
+    for i in activation2.output:
+        print("Result:",np.argmax(i))
 
 run()
