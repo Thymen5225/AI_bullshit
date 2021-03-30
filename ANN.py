@@ -48,7 +48,7 @@ X = np.array([[1,0,2],
 Y = np.zeros((10,3)).T
 Y[0][0]=1
 Y[1][2]=1
-Y[2][6]=1
+Y[2][9]=1
 Y = Y.astype(int)
 
 layer1 = layer(3, 10)
