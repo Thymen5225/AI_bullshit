@@ -55,7 +55,7 @@ def getTestData(x, y):
     image_array = []
     carrier_lst = []
     type_lst = []
-    for filename in glob.glob('Test/*.jpg'):
+    for filename in glob.glob('testdata/*.jpg'):
         im = Image.open(filename)
 
         # image data
@@ -66,16 +66,18 @@ def getTestData(x, y):
         # print(im_data.flatten())
 
         # fleet & name data
-        carrier = filename.split()[1]
+        carrier = filename.split()[2]
         for i in range(10):
             if carriers[i] == carrier:
                 carrier_index = i
-        typ = filename.split()[2][:4]
+        typ = filename.split()[3][:4]
         for i in range(10):
             if models[i] == typ:
                 typ_index = i
         carrier_lst.append(carrier_index)
         type_lst.append(typ_index)
+
+        print(type_lst, carrier_lst, image_array)
 
     return image_array, carrier_lst, type_lst
 
