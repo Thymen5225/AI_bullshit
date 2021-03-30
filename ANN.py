@@ -70,8 +70,8 @@ Y2_test= Y2_test.astype(int)
 X = X1
 Y = Y2
 learning_rate = 0.0001 #0.0001
-iterations = 10000 #2500
-Neurons = 300 #200
+iterations = 2500 #2500
+Neurons = 200 #200
 
 layer1 = layer(resolution[0]*resolution[1], Neurons) #resolution[0]*resolution[1]
 layer2 = layer(Neurons,10)
