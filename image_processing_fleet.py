@@ -47,4 +47,36 @@ def getImageData(x, y):
     return image_array, carrier_lst, type_lst
 
 
+def getTestData(x, y):
+    carriers = ['Lufthansa', 'KLM', 'Qantas', 'Emirates', 'AirFrance', 'Etihad', 'Turkish', 'American', 'Iberia',
+                'Qatar']
+    models = ['B747', 'A380', 'B777', 'B787', 'A340', 'A330', 'B737', 'A320', 'A350', 'E190']
+
+    image_array = []
+    carrier_lst = []
+    type_lst = []
+    for filename in glob.glob('Test/*.jpg'):
+        im = Image.open(filename)
+
+        # image data
+        im_gray = ImageOps.grayscale(im.resize((x, y), Image.ANTIALIAS))
+        im_data = np.asarray(im_gray)
+        image_array.append(im_data.flatten())
+
+        # print(im_data.flatten())
+
+        # fleet & name data
+        carrier = filename.split()[1]
+        for i in range(10):
+            if carriers[i] == carrier:
+                carrier_index = i
+        typ = filename.split()[2][:4]
+        for i in range(10):
+            if models[i] == typ:
+                typ_index = i
+        carrier_lst.append(carrier_index)
+        type_lst.append(typ_index)
+
+    return image_array, carrier_lst, type_lst
+
 # image_array, carrier_lst, type_lst = getImageData(64, 36)

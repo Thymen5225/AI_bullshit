@@ -55,7 +55,7 @@ for i in Y1:
 Y2 = np.array(Y2).reshape(len(Y2),10)
 Y2 = Y2.astype(int)
 
-test = Image.open('testfile.png')
+test = Image.open('test_2.jpg')
 test_gray = ImageOps.grayscale(test.resize((resolution[0],resolution[1]), Image.ANTIALIAS))
 X_test = np.asarray(test_gray).flatten()
 
