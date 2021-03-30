@@ -83,7 +83,7 @@ layer2 = layer(70,10)
 activation1 = ReLU()
 activation2 = softmax()
 learning_rate = 0.0001
-iterations = 2000
+iterations = 2500
 
 def run():
     for i in range(0,iterations):
