@@ -25,7 +25,9 @@ def getImageData(x, y):
         # image data
         im_gray = ImageOps.grayscale(im.resize((x, y), Image.ANTIALIAS))
         im_data = np.asarray(im_gray)
-        image_array.append(im_data)
+        image_array.append(im_data.flatten())
+
+        print(im_data.flatten())
 
         # fleet & name data
         carrier = filename.split()[1]
@@ -39,9 +41,9 @@ def getImageData(x, y):
         carrier_lst.append(carrier_index)
         type_lst.append(typ_index)
 
-    print(type_lst)
-    print(carrier_lst)
+    #print(type_lst)
+    #print(carrier_lst)
     return image_array, carrier_lst, type_lst
 
 
-getImageData(1280, 720)
+getImageData(64, 36)
